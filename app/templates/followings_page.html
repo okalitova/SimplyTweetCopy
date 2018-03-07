@@ -1,0 +1,11 @@
+{% extends "base_page.html" %}
+{% block content %}
+<header>
+    <h2> Followings </h2>
+    {% for follwing in followings %}
+    <div>
+        <p> following </p>
+    </div>
+    {% endfor %}
+</header>
+{% endblock %}
