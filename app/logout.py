@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, url_for, session, make_response
+from flask import redirect, url_for
 from app.current_user_info import UserInfo
 
 

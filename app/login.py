@@ -1,5 +1,5 @@
 from app import app
-from flask import request, url_for, redirect, session, render_template
+from flask import request
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from secret_keys import KeysAccessor
@@ -40,6 +40,4 @@ def accept_token():
 
 @app.route("/login")
 def login_page():
-    app.logger.debug("Log in page to show")
-    keys_accessor = KeysAccessor()
     return render_over_base_template("login_page.html")

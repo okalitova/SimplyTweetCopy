@@ -1,0 +1,55 @@
+.menu {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 10px;
+    display: inline-block;
+} 
+.hat {
+    margin: -10px -10px 0px -10px;
+    position: relative;
+    padding: 15px;
+    background-color: #C2DFFF;
+}
+.menu_item {
+    margin: 0px;
+    padding: 2px;
+}
+.post_holder {
+    padding-top: 15;
+}
+.post {
+    width: 88%;
+    padding: 5px;
+    margin: 2px;
+    font-size: 24px;
+    border: double grey;
+}
+.new_post {
+    width: 89%;
+    padding: 5px;
+    margin: 2px;
+    font-size: 24px;
+    border-color: grey;
+}
+.tweet_button_container {
+    width: 88%;
+    height: 30px;
+    padding: 5px;
+    margin: 2px;
+    position: relative;
+}
+.tweet_button {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 5px;
+    margin: 0px;
+    width: 100px;
+    height: 70px;
+}
+.form {
+    padding: 0px;
+    margin: 0px;
+}
