@@ -12,3 +12,6 @@ class KeysAccessor():
 
     def get_csrf_secret_key(self):
         return self.__keys["csrf_secret_key"]
+
+    def get_google_client_id(self):
+        return self.__keys["client_id"]

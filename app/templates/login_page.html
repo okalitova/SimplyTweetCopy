@@ -1,4 +1,37 @@
-<html>
-    <header> SimplyTweet </header> 
-    TODO: Google Auth
-</html>
+{% extends "base_page.html" %}
+{% block content %}
+<div>
+    <h1> Please login with Google</h1>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="606376210408-o7q92kjvdr0ml4klunij2aupek3aqd4b.apps.googleusercontent.com">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log("ID: " + profile.getId());
+            console.log('Full Name: ' + profile.getName());
+            console.log('Given Name: ' + profile.getGivenName());
+            console.log('Family Name: ' + profile.getFamilyName());
+            console.log("Image URL: " + profile.getImageUrl());
+            console.log("Email: " + profile.getEmail());
+
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+            
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
+                    console.log("Redirected to the main page");
+                    window.location = "http://olga.aws.prd.demodesu.com:10443";
+                }
+            }
+            xhr.open('POST', 'http://olga.aws.prd.demodesu.com:10443/accept_token');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                console.log('Signed in as: ' + xhr.responseText);
+            };
+            xhr.send('idtoken=' + id_token);
+        };
+    </script>
+</div>
+{% endblock %}

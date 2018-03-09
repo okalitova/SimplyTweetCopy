@@ -1,9 +1,10 @@
 from flask import render_template
 from app.current_user_info import UserInfo
+from secret_keys import KeysAccessor
 
 
 def render_over_base_template(*args, **kwargs):
+    keys_accessor = KeysAccessor()
     return render_template(*args,
                            **kwargs,
-                           logged_in=UserInfo.is_logged_in(),
-                           username=UserInfo.get_current_user_username())
+                           GOOGLE_CLIENT_ID=keys_accessor.get_google_client_id())

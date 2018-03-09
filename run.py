@@ -2,11 +2,13 @@
 from flask import Flask
 from app import main_page
 from app import user_page
-from app import login_page
 from app import followings_page
 from app import app
-from app import logout_page
+from app import logout
 from secret_keys import KeysAccessor
+from app import login
+from app import profile
+
 
 if __name__ == "__main__":
     key_accessor = KeysAccessor()
