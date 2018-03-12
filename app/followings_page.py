@@ -3,10 +3,7 @@ from app.base_page_render import render_over_base_template
 from app.current_user_info import UserInfo
 from app import redis_store
 import json
-
-
-def get_posts(username):
-    return ["Post 1", "Post 2"]
+from app.posts import get_posts
 
 
 @app.route("/followings/<username>")
