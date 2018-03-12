@@ -2,20 +2,18 @@
 {% block content %}
 <div class="post_holder">
     {% if current_user_page %}
-        <form action="" method="post" name="new_post" class="form">
-            {{form.hidden_tag()}}
+        <form action="/new_post" name="new_post" method="POST" class="form">
+            {{new_post_form.hidden_tag()}}
             <div>
-                {{form.text(class_="new_post")}}
+                {{new_post_form.text(class_="new_post")}}
             </div>
             <div>
-                <p class="tweet_button_container">
-                    <input class="tweet_button" type="submit" value="Tweet">
-                </p>
+                {{new_post_form.tweet}}
             </div>
         </form>
     {% endif  %}
     {% if not is_following and not current_user_page %}
-        <form action="" name="follow" method="post" class="form">
+        <form action="" name="follow" method="POST" class="form">
             {{follow_form.hidden_tag()}}
             <div>
                 {{follow_form.follow}}

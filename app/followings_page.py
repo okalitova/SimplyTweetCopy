@@ -2,10 +2,8 @@ from app import app
 from app.base_page_render import render_over_base_template
 from app.current_user_info import UserInfo
 from app import redis_store
-
-
-def get_posts(username):
-    return ["Post 1", "Post 2"]
+import json
+from app.posts import get_posts
 
 
 @app.route("/followings/<username>")
@@ -22,16 +20,28 @@ def user_follow(username):
 
 @app.route("/redis_followings")
 def add_following(current_user, user_to_follow):
-    current_followings = get_followings(current_user)
-    current_followings.add(user_to_follow)
-    redis_store.set(current_user, ";".join(current_followings))
+    user_info_json = get_user_info(current_user)
+    user_info_json["followings"].append(user_to_follow)
+    app.logger.debug("New user info: %s", user_info_json)
+    user_info_str = json.dumps(user_info_json)
+    redis_store.set(current_user, user_info_str)
     app.logger.debug("New following: %s", get_followings(current_user))
 
 
 @app.route("/redis_followers")
+def get_user_info(username):
+    user_info_str = redis_store.get(username).decode("utf-8")
+    app.logger.debug("User info str: %s", user_info_str)
+    user_info_json = json.loads(user_info_str)
+    app.logger.debug("User info json: %s", user_info_json)
+    return user_info_json
+
+
+@app.route("/redis_followers")
 def get_followings(username):
-    user_followings_str = redis_store.get(username).decode("utf-8")
-    user_followings = set(user_followings_str.split(";"))
+    user_info_json = get_user_info(username)
+    app.logger.debug("User info json: %s", user_info_json)
+    user_followings = set(user_info_json["followings"])
     app.logger.debug("Followings: %s", user_followings)
     return user_followings
 
