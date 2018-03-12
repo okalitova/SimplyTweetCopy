@@ -1,13 +1,6 @@
 #!simply_tweet/bin/python3
-from flask import Flask
-from app import main_page
-from app import user_page
-from app import followings_page
-from app import app
-from app import logout
 from secret_keys import KeysAccessor
-from app import login
-from app import profile
+from app import app
 
 
 if __name__ == "__main__":

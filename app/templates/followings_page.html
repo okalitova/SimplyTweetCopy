@@ -2,9 +2,9 @@
 {% block content %}
 <header>
     <h2> Followings </h2>
-    {% for follwing in followings %}
+    {% for following in followings %}
     <div>
-        <p> following </p>
+        <a href="http://olga.aws.prd.demodesu.com:10443/{{following}}">{{following}}</p>
     </div>
     {% endfor %}
 </header>
