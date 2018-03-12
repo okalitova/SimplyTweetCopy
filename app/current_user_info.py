@@ -1,5 +1,6 @@
 from flask import session
-from app import app
+from app import app, redis_store
+import json
 
 
 class UserInfo():
@@ -15,6 +16,8 @@ class UserInfo():
             return session["email"]
 
     def add_current_user(userid, email, username):
+        if redis_store.get(username) is None:
+            redis_store.set(username, json.dumps({"followings": [], "posts": []}))
         session["userid"] = userid
         session["email"] = email
         session["username"] = username
