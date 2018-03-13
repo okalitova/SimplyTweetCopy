@@ -1,6 +1,7 @@
 from flask import session
 from app import app, redis_store
 import json
+import time
 
 
 class UserInfo():
@@ -14,6 +15,9 @@ class UserInfo():
     def get_current_user_email():
         if UserInfo.is_logged_in():
             return session["email"]
+
+    def check_user_exists(username):
+        return redis_store.get(username) is not None
 
     def add_current_user(userid, email, username):
         if redis_store.get(username) is None:
@@ -29,3 +33,69 @@ class UserInfo():
     def remove_current_user():
         session.clear()
         app.logger.debug("Current user removed")
+
+    def add_post(username, text):
+        user_info_json = UserInfo.get_user_info(username)
+        user_info_json["posts"].append({"text": text, "timestamp": time.time()})
+        app.logger.debug("New user info: %s", user_info_json)
+        user_info_str = json.dumps(user_info_json)
+        redis_store.set(username, user_info_str)
+        app.logger.debug("New following: %s", UserInfo.get_posts(username))
+
+    def get_posts(username):
+        user_posts = UserInfo.get_posts_with_ts(username)
+        posts_text = []
+        for post in user_posts:
+            posts_text.append(post["text"])
+        return posts_text
+
+    def get_posts_with_ts(username):
+        user_info_json = UserInfo.get_user_info(username)
+        app.logger.debug("User info json: %s", user_info_json)
+        user_posts = user_info_json["posts"]
+        app.logger.debug("Followings: %s", user_posts)
+        return user_posts[::-1]
+
+    def get_followings_posts(usernames):
+        pointers = [0 for _ in range(len(usernames))]
+        users_posts = []
+        for username in usernames:
+            users_posts.append(UserInfo.get_posts_with_ts(username))
+        app.logger.debug("All followings posts: %s", users_posts)
+        merged_posts_text = []
+        while True:
+            mmax = 0
+            argmax = -1
+            for i, user_posts in enumerate(users_posts):
+                if pointers[i] < len(user_posts) and mmax < float(user_posts[pointers[i]]["timestamp"]):
+                    mmax = float(user_posts[pointers[i]]["timestamp"])
+                    argmax = i
+            if argmax == -1:
+                break
+            app.logger.debug("Coolest ts: %s", users_posts[argmax][pointers[argmax]]["text"])
+            merged_posts_text.append(users_posts[argmax][pointers[argmax]]["text"])
+            pointers[argmax] += 1
+        return merged_posts_text
+
+    def add_following(current_user, user_to_follow):
+        user_info_json = UserInfo.get_user_info(current_user)
+        user_info_json["followings"].append(user_to_follow)
+        app.logger.debug("New user info: %s", user_info_json)
+        user_info_str = json.dumps(user_info_json)
+        redis_store.set(current_user, user_info_str)
+        app.logger.debug("New following: %s", UserInfo.get_followings(current_user))
+
+    def get_user_info(username):
+        app.logger.debug("Getting user info for %s", username)
+        user_info_str = redis_store.get(username).decode("utf-8")
+        app.logger.debug("User info str: %s", user_info_str)
+        user_info_json = json.loads(user_info_str)
+        app.logger.debug("User info json: %s", user_info_json)
+        return user_info_json
+
+    def get_followings(username):
+        user_info_json = UserInfo.get_user_info(username)
+        app.logger.debug("User info json: %s", user_info_json)
+        user_followings = set(user_info_json["followings"])
+        app.logger.debug("Followings: %s", user_followings)
+        return user_followings
