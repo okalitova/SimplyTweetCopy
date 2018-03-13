@@ -2,6 +2,8 @@ from flask import session
 from app import app, redis_store
 import json
 import time
+from app.images import ImagesStorage
+from PIL import Image
 
 
 class UserInfo():
@@ -34,26 +36,21 @@ class UserInfo():
         session.clear()
         app.logger.debug("Current user removed")
 
-    def add_post(username, text):
+    def add_post(username, text, image):
+        image_key = None
+        if image is not None:
+            app.logger.debug("Image: %s", image)
+            images_storage = ImagesStorage()
+            image_key = images_storage.put_image(image)
+            app.logger.debug("Image key: %s", image_key)
         user_info_json = UserInfo.get_user_info(username)
-        user_info_json["posts"].append({"text": text, "timestamp": time.time()})
-        app.logger.debug("New user info: %s", user_info_json)
+        user_info_json["posts"].append({"text": text, "timestamp": time.time(), "image_key": image_key})
         user_info_str = json.dumps(user_info_json)
         redis_store.set(username, user_info_str)
-        app.logger.debug("New following: %s", UserInfo.get_posts(username))
 
     def get_posts(username):
-        user_posts = UserInfo.get_posts_with_ts(username)
-        posts_text = []
-        for post in user_posts:
-            posts_text.append(post["text"])
-        return posts_text
-
-    def get_posts_with_ts(username):
         user_info_json = UserInfo.get_user_info(username)
-        app.logger.debug("User info json: %s", user_info_json)
         user_posts = user_info_json["posts"]
-        app.logger.debug("Followings: %s", user_posts)
         return user_posts[::-1]
 
     def get_followings_posts(usernames):

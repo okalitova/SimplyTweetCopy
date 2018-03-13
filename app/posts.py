@@ -16,8 +16,9 @@ def posts():
 
 @app.route("/new_post", methods=["POST"])
 def new_post():
-    new_post_form = NewPostForm(request.form)
+    new_post_form = NewPostForm()
     if request.method == "POST" and new_post_form.validate_on_submit():
         if new_post_form.tweet.data:
-            UserInfo.add_post(UserInfo.get_current_user_username(), new_post_form.text.data)
+            image = new_post_form.image.data
+            UserInfo.add_post(UserInfo.get_current_user_username(), new_post_form.text.data, image)
     return redirect(url_for("profile"))

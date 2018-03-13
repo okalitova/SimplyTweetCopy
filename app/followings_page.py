@@ -7,7 +7,7 @@ from app.current_user_info import UserInfo
 def user_follow(username):
     app.logger.debug("Adds new following %s", username)
     UserInfo.add_following(UserInfo.get_current_user_username(), username)
-    posts = get_posts(username)
+    posts = UserInfo.get_posts(username)
     return render_over_base_template("user_page.html",
                                      username=username,
                                      current_user_page=False,
