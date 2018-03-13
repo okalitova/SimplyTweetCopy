@@ -3,22 +3,10 @@
         <meta name="google-signin-scope" content="profile email">
         <meta name="google-signin-client_id" content="{{GOOGLE_CLIENT_ID}}">
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <script src="{{url_for('static', filename='scripts.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
     </head>
     <body>
-        <script>
-            function signOut() {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
-                    console.log('User signed out.');
-                });
-            }
-            function onLoad() {
-                gapi.load('auth2', function() {
-                    gapi.auth2.init();
-                });
-            }
-        </script>
         <div class="hat">
             <span class="menu">
                 {% if session.userid %}
