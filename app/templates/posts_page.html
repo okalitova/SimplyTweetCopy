@@ -4,7 +4,9 @@
     {% for post in followings_posts %}
         <div>
             <p class="post">
-                {{post}}
+                {{post.text}}
+                {{post.time}}
+                <img src={{post.image_link}}></img>
             </p>
         </div>
     {% endfor %}
