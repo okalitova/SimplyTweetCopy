@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
 from wtforms import TextField, SubmitField
 from wtforms.validators import required, length
-from flask_wtf.file import FileField
 
 
 class NewPostForm(FlaskForm):
