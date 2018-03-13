@@ -1,0 +1,14 @@
+{% extends "base_page.html" %}
+{% block content %}
+<div>
+    {% for post in followings_posts %}
+        <div>
+            <p class="post">
+                {{post.text}}
+                {{post.time}}
+                <img src={{post.image_link}}></img>
+            </p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %} 

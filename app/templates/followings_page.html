@@ -1,0 +1,11 @@
+{% extends "base_page.html" %}
+{% block content %}
+<header>
+    <h2> Followings </h2>
+    {% for following in followings %}
+    <div>
+        <a href="http://olga.aws.prd.demodesu.com:10443/{{following}}">{{following}}</p>
+    </div>
+    {% endfor %}
+</header>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base_page.html" %}
+{% block content %}
+<div class="post_holder">
+    {% if current_user_page %}
+        <form action="/new_post" name="new_post" method="POST" class="form" enctype="multipart/form-data">
+            {{new_post_form.hidden_tag()}}
+            <div>
+                {{new_post_form.text(class_="new_post")}}
+            </div>
+            <div>
+                {{new_post_form.image}}
+            </div>
+            <div>
+                {{new_post_form.tweet}}
+            </div>
+        </form>
+    {% endif  %}
+    {% if not is_following and not current_user_page %}
+        <form action="" name="follow" method="POST" class="form">
+            {{follow_form.hidden_tag()}}
+            <div>
+                {{follow_form.follow}}
+            </div>
+        </form>
+    {% else %}
+        <div>
+            {% for post in posts %}
+                <div>
+                    <p class="post">
+                        {{post.text}}
+                        {{post.time}}
+                        <img src={{post.image_link}}></img>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -90,6 +90,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+simply_tweet/
 
 # Spyder project settings
 .spyderproject
@@ -101,5 +102,5 @@ venv.bak/
 # mkdocs documentation
 /site
 
-# keys
+# secret_keys
 secret_keys

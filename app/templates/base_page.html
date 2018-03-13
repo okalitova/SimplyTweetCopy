@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="{{GOOGLE_CLIENT_ID}}">
+        <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+        <script src="{{url_for('static', filename='scripts.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    </head>
+    <body>
+        <div class="hat">
+            <h1>SimplyTweet</h1>
+            <span class="menu">
+                {% if session.userid %}
+                    <p>You are logged in as: {{session["email"]}}</p>
+                    <p class="menu_item">
+                        <a href="/logout" onclick="signOut();">Log out</a>
+                    </p>
+                    <p class="menu_item">
+                        <a href="/profile">Profile</a>
+                    </p>
+                    <p class="menu_item">
+                        <a href="/followings">Followings</a>
+                    </p>
+                    <p class="menu_item">
+                        <a href="/posts">Followings posts</a>
+                    <p>
+                {% else %}
+                    <p class="menu_item">
+                        <a href="/login">Log in</a>
+                    </p>
+                {% endif %}
+            </span>
+        </div>
+        <div style="marging=15px;">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

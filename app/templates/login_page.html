@@ -1,0 +1,10 @@
+{% extends "base_page.html" %}
+{% block content %}
+<div>
+    <h1> Please login with Google</h1>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="{{url_for('static', filename='scripts.js')}}"></script>
+    <meta name="google-signin-client_id" content="606376210408-o7q92kjvdr0ml4klunij2aupek3aqd4b.apps.googleusercontent.com">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+</div>
+{% endblock %}
