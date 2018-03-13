@@ -49,7 +49,7 @@ def get_followings_posts(usernames):
 
 def get_posts_to_show(username):
     posts = get_posts(username)
-    return to_posts_to_show(posts_to_show)
+    return to_posts_to_show(posts)
 
 
 def to_posts_to_show(posts):
