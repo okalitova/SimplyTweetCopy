@@ -30,7 +30,7 @@ def get_followings_posts(usernames):
     pointers = [0 for _ in range(len(usernames))]
     users_posts = []
     for username in usernames:
-        users_posts.append(UserInfo.get_posts_with_ts(username))
+        users_posts.append(get_posts(username))
     merged_posts = []
     while True:
         mmax = 0
