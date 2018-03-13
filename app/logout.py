@@ -1,5 +1,6 @@
-from app import app
 from flask import redirect, url_for
+
+from app import app
 from app.current_user_info import UserInfo
 
 

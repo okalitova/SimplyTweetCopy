@@ -1,10 +1,11 @@
-from app import app
 from flask import request
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from secret_keys import KeysAccessor
+
+from app import app
+from app.base_template_render import render_over_base_template
 from app.current_user_info import UserInfo
-from app.base_page_render import render_over_base_template
+from secret_keys import KeysAccessor
 
 
 def get_token_idinfo(token):

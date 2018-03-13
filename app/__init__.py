@@ -14,4 +14,3 @@ from app import logout
 from app import login
 from app import profile
 from app import posts
-

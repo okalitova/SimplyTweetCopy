@@ -1,5 +1,5 @@
 from app import app
-from app.base_page_render import render_over_base_template
+from app.base_template_render import render_over_base_template
 
 
 @app.route("/")

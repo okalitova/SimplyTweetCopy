@@ -1,11 +1,10 @@
 from app import app
-from app.base_page_render import render_over_base_template
+from app.base_template_render import render_over_base_template
 from app.current_user_info import UserInfo
 
 
 @app.route("/followings/<username>")
 def user_follow(username):
-    app.logger.debug("Adds new following %s", username)
     UserInfo.add_following(UserInfo.get_current_user_username(), username)
     posts = UserInfo.get_posts(username)
     return render_over_base_template("user_page.html",

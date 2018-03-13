@@ -1,19 +1,19 @@
-from app import app
-from app.base_page_render import render_over_base_template
-from app.current_user_info import UserInfo
-from app.forms import NewPostForm, FollowForm
+from datetime import datetime
+
 from flask import request, redirect, url_for, abort
+
+from app import app
+from app.base_template_render import render_over_base_template
+from app.current_user_info import UserInfo
 from app.images import ImagesStorage
-from werkzeug.utils import secure_filename
-from os.path import join
-from PIL import Image
-import datetime
+from app.forms import NewPostForm, FollowForm
 
 
 def get_posts_to_show(posts):
-    posts_to_show = []    
+    posts_to_show = []
     for post in posts:
-        post["time"] = datetime.datetime.fromtimestamp(post["timestamp"]).strftime('%Y-%m-%d %H:%M:%S')
+        post["time"] = datetime.fromtimestamp(post["timestamp"])\
+                                    .strftime('%Y-%m-%d %H:%M:%S')
         if "image_key" in post and post["image_key"] is not None:
             images_storage = ImagesStorage()
             image_link = images_storage.get_image(post["image_key"])
@@ -26,7 +26,6 @@ def get_posts_to_show(posts):
 def user_page(username):
     # check that user exists
     if not UserInfo.check_user_exists(username):
-        app.logger.debug("App is about to abort")
         abort(404)
     # if follow button was pressed
     follow_form = FollowForm(request.form)
@@ -41,7 +40,6 @@ def user_page(username):
         current_user_page = True
     posts = UserInfo.get_posts(username)
     posts_to_show = get_posts_to_show(posts)
-    app.logger.debug("Posts to show: ", posts)
     is_following = username in UserInfo.get_followings(current_user_username)
     return render_over_base_template("user_page.html",
                                      username=username,
