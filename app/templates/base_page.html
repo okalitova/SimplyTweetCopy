@@ -8,6 +8,7 @@
     </head>
     <body>
         <div class="hat">
+            <h1>SimplyTweet</h1>
             <span class="menu">
                 {% if session.userid %}
                     <p>You are logged in as: {{session["email"]}}</p>
@@ -20,13 +21,15 @@
                     <p class="menu_item">
                         <a href="/followings">Followings</a>
                     </p>
+                    <p class="menu_item">
+                        <a href="/posts">Followings posts</a>
+                    <p>
                 {% else %}
                     <p class="menu_item">
                         <a href="/login">Log in</a>
                     </p>
                 {% endif %}
             </span>
-            <h1>SimplyTweet</h1>
         </div>
         <div style="marging=15px;">
             {% block content %}{% endblock %}

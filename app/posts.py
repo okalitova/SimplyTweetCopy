@@ -44,11 +44,15 @@ def get_followings_posts(usernames):
             break
         merged_posts.append(users_posts[argmax][pointers[argmax]])
         pointers[argmax] += 1
-    return merged_posts
+    return to_posts_to_show(merged_posts)
 
 
 def get_posts_to_show(username):
     posts = get_posts(username)
+    return to_posts_to_show(posts_to_show)
+
+
+def to_posts_to_show(posts):
     posts_to_show = []
     for post in posts:
         post["time"] = datetime.fromtimestamp(post["timestamp"])\
