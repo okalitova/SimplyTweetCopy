@@ -2,11 +2,11 @@
 {% block content %}
 <div>
     {% for post in followings_posts %}
-        <div>
-            <p class="post">
+        <div class="post_container">
+            <p class="post_time">{{post.time}}</>
+            <p class="post_text">
                 {{post.text}}
-                {{post.time}}
-                <img src={{post.image_link}}></img>
+                <img class="post_image" src={{post.image_link}}></img>
             </p>
         </div>
     {% endfor %}

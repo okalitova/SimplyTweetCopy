@@ -1,55 +1,72 @@
-.menu {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 10px;
-    display: inline-block;
-} 
 .hat {
     margin: -10px -10px 0px -10px;
-    position: relative;
     padding: 15px;
-    background-color: #C2DFFF;
+    background-color: #B2DFFF;
+    margin-bottom: 20px;
+    height: 160px;
 }
+.app_name {
+    font-size: 56px;
+    display: inline-block;
+}
+.menu {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+} 
 .menu_item {
     margin: 0px;
     padding: 2px;
 }
-.post_holder {
-    padding-top: 15;
+.post_container {
+    display: block;
 }
-.post {
-    width: 88%;
-    padding: 5px;
-    margin: 2px;
-    font-size: 24px;
+.post_time {
+    float: right;
     border: double grey;
+    margin: 0px;
+    padding: 5px;
+}
+.post_text {
+    border: double grey;
+    margin: 0px;
+    padding: 5px;
+    font-size: 24px;
+    display: block;
+}
+.post_image {
+    display: block;
+    max-height: 300px;
+    max-width: 300px;
 }
 .new_post {
-    width: 89%;
+    margin: 0px;
     padding: 5px;
-    margin: 2px;
+    min-height: 100px;
     font-size: 24px;
+    width: 100%;
     border-color: grey;
+    display: block;
+}
+.upload_button_container {
+    display: block;
+    padding: 10px;
+    text-align: right;
+}
+.upload_button {
+    width: 160px;
 }
 .tweet_button_container {
-    width: 88%;
-    height: 30px;
-    padding: 5px;
-    margin: 2px;
-    position: relative;
+    display: block;
+    text-align: right;
+    padding: 10px;
 }
 .tweet_button {
-    display: inline-block;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    padding: 5px;
-    margin: 0px;
+    box-sizing: content-box;
     width: 100px;
-    height: 70px;
 }
 .form {
     padding: 0px;
-    margin: 0px;
+    margin: 0px 0px 40px 0px;
 }

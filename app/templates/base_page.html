@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="hat">
-            <h1>SimplyTweet</h1>
+            <h1 class="app_name">SimplyTweet</h1>
             <span class="menu">
                 {% if session.userid %}
                     <p>You are logged in as: {{session["email"]}}</p>
@@ -31,7 +31,7 @@
                 {% endif %}
             </span>
         </div>
-        <div style="marging=15px;">
+        <div>
             {% block content %}{% endblock %}
         </div>
     </body>
