@@ -15,6 +15,6 @@ class KeysAccessor():
 
     def get_google_client_id(self):
         return self.__keys["client_id"]
-    
+
     def get_redis_password(self):
         return self.__keys["redis_password"]

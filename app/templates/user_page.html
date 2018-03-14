@@ -6,8 +6,14 @@
         <form action="/new_post" name="new_post" method="POST" class="form" enctype="multipart/form-data">
             {{new_post_form.hidden_tag()}}
             {{new_post_form.text(class_="new_post")}}
+            {% for error in new_post_form.text.errors %}
+                <p class="error">{{error}}</p>
+            {% endfor %}
             <div class="upload_button_container">
                 {{new_post_form.image(class_="upload_button")}}
+                {% for error in new_post_form.image.errors %}
+                    <p class="error">{{error}}</p>
+                {% endfor %}
             </div>
             <div class="tweet_button_container">
                 {{new_post_form.tweet(class_="tweet_button")}}
