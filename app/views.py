@@ -94,7 +94,13 @@ def new_post():
             image = new_post_form.image.data
             add_post(UserInfo.get_current_user_username(),
                      new_post_form.text.data, image)
-    return redirect(url_for("profile"))
+    current_user_username = UserInfo.get_current_user_username()
+    posts_to_show = get_posts_to_show(current_user_username)
+    return render_over_base_template("user_page.html",
+                                     username=current_user_username,
+                                     current_user_page=True,
+                                     posts=posts_to_show,
+                                     new_post_form=new_post_form)
 
 
 @app.route("/accept_token", methods=["POST"])
