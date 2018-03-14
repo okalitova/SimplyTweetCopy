@@ -1,19 +1,19 @@
 {% extends "base_page.html" %}
 {% block content %}
-<div class="post_holder">
+<div>
     {% if current_user_page %}
+    <div>
         <form action="/new_post" name="new_post" method="POST" class="form" enctype="multipart/form-data">
             {{new_post_form.hidden_tag()}}
-            <div>
-                {{new_post_form.text(class_="new_post")}}
+            {{new_post_form.text(class_="new_post")}}
+            <div class="upload_button_container">
+                {{new_post_form.image(class_="upload_button")}}
             </div>
-            <div>
-                {{new_post_form.image}}
-            </div>
-            <div>
-                {{new_post_form.tweet}}
+            <div class="tweet_button_container">
+                {{new_post_form.tweet(class_="tweet_button")}}
             </div>
         </form>
+    </div>
     {% endif  %}
     {% if not is_following and not current_user_page %}
         <form action="" name="follow" method="POST" class="form">
@@ -25,11 +25,11 @@
     {% else %}
         <div>
             {% for post in posts %}
-                <div>
-                    <p class="post">
+                <div class="post_container">
+                    <p class="post_time">{{post.time}}</>
+                    <p class="post_text">
                         {{post.text}}
-                        {{post.time}}
-                        <img src={{post.image_link}}></img>
+                        <img class="post_image" src={{post.image_link}}></img>
                     </p>
                 </div>
             {% endfor %}
