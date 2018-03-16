@@ -23,7 +23,11 @@ def add_post(userid, text, image):
 def get_posts(userid):
     user_info_json = UserInfo.get_user_info(userid)
     user_posts = user_info_json["posts"]
-    return user_posts[::-1]
+    user_posts_with_emails = []
+    for post in user_posts:
+        post["email"] = UserInfo.get_user_email(userid)
+        user_posts_with_emails.append(post)
+    return user_posts_with_emails[::-1]
 
 
 def get_followings_posts(userids):
@@ -43,7 +47,6 @@ def get_followings_posts(userids):
         if argmax == -1:
             break
         merged_posts.append(users_posts[argmax][pointers[argmax]])
-        merged_posts[-1]["email"] = UserInfo.get_user_email(userid)
         pointers[argmax] += 1
     return to_posts_to_show(merged_posts)
 

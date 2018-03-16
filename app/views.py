@@ -49,15 +49,13 @@ def user_page(userid):
         current_user_page = True
     posts_to_show = get_posts_to_show(userid)
     is_following = userid in get_followings_ids(current_user_userid)
-    email = UserInfo.get_user_email(userid)
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=current_user_page,
                                      is_following=is_following,
                                      posts=posts_to_show,
                                      follow_form=follow_form,
-                                     new_post_form=new_post_form,
-                                     email=email)
+                                     new_post_form=new_post_form)
 
 
 @app.route("/followings/<userid>")
