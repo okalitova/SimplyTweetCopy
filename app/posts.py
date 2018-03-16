@@ -7,30 +7,30 @@ from app.images import ImagesStorage
 from app.user_info import UserInfo
 
 
-def add_post(username, text, image):
+def add_post(userid, text, image):
     image_key = None
     if image is not None:
         images_storage = ImagesStorage()
         image_key = images_storage.put_image(image)
-    user_info_json = UserInfo.get_user_info(username)
+    user_info_json = UserInfo.get_user_info(userid)
     user_info_json["posts"].append({"text": text,
                                     "timestamp": time.time(),
                                     "image_key": image_key})
     user_info_str = json.dumps(user_info_json)
-    redis_store.set(username, user_info_str)
+    redis_store.set(userid, user_info_str)
 
 
-def get_posts(username):
-    user_info_json = UserInfo.get_user_info(username)
+def get_posts(userid):
+    user_info_json = UserInfo.get_user_info(userid)
     user_posts = user_info_json["posts"]
     return user_posts[::-1]
 
 
-def get_followings_posts(usernames):
-    pointers = [0 for _ in range(len(usernames))]
+def get_followings_posts(userids):
+    pointers = [0 for _ in range(len(userids))]
     users_posts = []
-    for username in usernames:
-        users_posts.append(get_posts(username))
+    for userid in userids:
+        users_posts.append(get_posts(userid))
     merged_posts = []
     while True:
         mmax = 0
@@ -43,12 +43,13 @@ def get_followings_posts(usernames):
         if argmax == -1:
             break
         merged_posts.append(users_posts[argmax][pointers[argmax]])
+        merged_posts[-1]["email"] = UserInfo.get_user_email(userid)
         pointers[argmax] += 1
     return to_posts_to_show(merged_posts)
 
 
-def get_posts_to_show(username):
-    posts = get_posts(username)
+def get_posts_to_show(userid):
+    posts = get_posts(userid)
     return to_posts_to_show(posts)
 
 

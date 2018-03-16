@@ -4,14 +4,24 @@ from app import redis_store
 from app.user_info import UserInfo
 
 
-def add_following(current_user, user_to_follow):
-    user_info_json = UserInfo.get_user_info(current_user)
-    user_info_json["followings"].append(user_to_follow)
+def add_following(current_userid, to_follow_userid):
+    user_info_json = UserInfo.get_user_info(current_userid)
+    user_info_json["followings"]\
+        .append({"userid": to_follow_userid,
+                 "email": UserInfo.get_user_email(to_follow_userid)})
     user_info_str = json.dumps(user_info_json)
-    redis_store.set(current_user, user_info_str)
+    redis_store.set(current_userid, user_info_str)
 
 
-def get_followings(username):
-    user_info_json = UserInfo.get_user_info(username)
-    user_followings = set(user_info_json["followings"])
+def get_followings(userid):
+    user_info_json = UserInfo.get_user_info(userid)
+    user_followings = user_info_json["followings"]
     return user_followings
+
+
+def get_followings_ids(userid):
+    followings = get_followings(userid)
+    followings_ids = []
+    for following in followings:
+        followings_ids.append(following["userid"])
+    return followings_ids

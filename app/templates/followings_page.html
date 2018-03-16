@@ -4,7 +4,7 @@
     <h2> Followings </h2>
     {% for following in followings %}
     <div>
-        <a href="http://olga.aws.prd.demodesu.com:10443/{{following}}">{{following}}</p>
+        <a href="/{{following.userid}}">{{following.email}}</p>
     </div>
     {% endfor %}
 </header>
