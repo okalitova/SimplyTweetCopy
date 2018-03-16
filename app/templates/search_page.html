@@ -1,0 +1,13 @@
+{% extends "base_page.html" %}
+{% block content %}
+{% if session.userid %}
+    <form action="/search" name="search_form" method="post" class="form" enctype="multipart/form-data">
+        {{search_form.hidden_tag()}}
+        {{search_form.text}}
+        {{search_form.search}}
+        {% for error in search_form.text.errors %}
+            <p class="error">{{error}}</p>
+        {% endfor %}
+    </form>
+{% endif %}
+{% endblock %}
