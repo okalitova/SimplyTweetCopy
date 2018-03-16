@@ -16,7 +16,6 @@ class UserInfoTest(unittest.TestCase):
     def set_session(self):
         session["userid"] = UserInfoTest.USER_ID
         session["email"] = UserInfoTest.USER_EMAIL
-        session["username"] = UserInfoTest.USER_USERNAME
 
     def test_is_logged_in_if_yes(self):
         with app.test_request_context():
@@ -27,12 +26,12 @@ class UserInfoTest(unittest.TestCase):
         with app.test_request_context():
             self.assertFalse(UserInfo.is_logged_in())
 
-    def test_get_current_user_username(self):
+    def test_get_current_user_userid(self):
         with app.test_request_context():
             self.set_session()
 
-            self.assertEqual(UserInfo.get_current_user_username(),
-                             UserInfoTest.USER_USERNAME)
+            self.assertEqual(UserInfo.get_current_user_userid(),
+                             UserInfoTest.USER_ID)
 
     def test_get_currrent_user_email(self):
         with app.test_request_context():

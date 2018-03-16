@@ -9,4 +9,4 @@ from tests.mock_redis import MockRedis
 class FollowingsTest(unittest.TestCase):
     def test_get_followings(self):
         followings = get_followings(MockRedis.TEST_USER_1)
-        self.assertEqual(followings, set(MockRedis.TEST_USER_1_FOLLOWINGS))
+        self.assertEqual(followings, MockRedis.TEST_USER_1_FOLLOWINGS)
