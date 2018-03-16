@@ -36,11 +36,6 @@ def user_page(userid):
     # check that user exists
     if not UserInfo.check_user_exists(userid):
         abort(404)
-    # if follow button was pressed
-    follow_form = FollowForm(request.form)
-    if request.method == "POST" and follow_form.validate_on_submit():
-        if follow_form.follow.data:
-            return redirect(url_for("new_following", userid=userid))
     # page filling
     new_post_form = NewPostForm(request.form)
     current_user_userid = UserInfo.get_current_user_userid()
@@ -49,6 +44,7 @@ def user_page(userid):
         current_user_page = True
     posts_to_show = get_posts_to_show(userid)
     is_following = userid in get_followings_ids(current_user_userid)
+    follow_form = FollowForm(request.form)
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=current_user_page,
@@ -58,7 +54,7 @@ def user_page(userid):
                                      new_post_form=new_post_form)
 
 
-@app.route("/followings/<userid>")
+@app.route("/followings/<userid>", methods=["POST"])
 def new_following(userid):
     add_following(UserInfo.get_current_user_userid(), userid)
     posts_to_show = get_posts_to_show(userid)
