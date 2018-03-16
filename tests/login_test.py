@@ -4,9 +4,8 @@ from app.login import validate_iss, set_user_info
 
 
 class LoginTest(unittest.TestCase):
-    USER_ID = "user_id"
+    USER_ID = "userid"
     EMAIL = "test-email.first@gmail.com"
-    USERNAME = "test-email.first"
     VALID_IDINFO_1 = {"iss": "accounts.google.com",
                       "sub": USER_ID,
                       "email": EMAIL}
@@ -31,6 +30,4 @@ class LoginTest(unittest.TestCase):
     @patch("app.login.UserInfo")
     def test_set_user_info(self, mock_user_info):
         set_user_info(LoginTest.VALID_IDINFO_1)
-        mock_user_info.add_current_user.assert_called_with(LoginTest.USER_ID,
-                                                           LoginTest.EMAIL,
-                                                           LoginTest.USERNAME)
+        mock_user_info.add_current_user.assert_called_with(LoginTest.EMAIL)
