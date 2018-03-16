@@ -1,4 +1,6 @@
-from flask import render_template
+from flask import render_template, session
+
+from app.forms import SearchForm
 from secret_keys import KeysAccessor
 
 

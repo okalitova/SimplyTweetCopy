@@ -1,9 +1,9 @@
-from flask import request, redirect, url_for, abort
+from flask import request, redirect, url_for, abort, session
 
 from app import app
 from app.base_template_render import render_over_base_template
 from app.followings import get_followings, add_following, get_followings_ids
-from app.forms import NewPostForm, FollowForm
+from app.forms import NewPostForm, FollowForm, SearchForm
 from app.login import get_token_idinfo, validate_iss, set_user_info
 from app.posts import get_posts_to_show, get_followings_posts, add_post
 from app.user_info import UserInfo
@@ -100,6 +100,16 @@ def new_post():
                      new_post_form.text.data, image)
     return redirect(url_for("profile"))
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    search_form = SearchForm()
+    if request.method == "POST" and search_form.validate_on_submit():
+        if search_form.search.data:
+            email = search_form.text.data
+            userid = UserInfo.get_userid(email)
+            return redirect(url_for("user_page", userid=userid))
+    return render_over_base_template("search_page.html",
+                                     search_form=search_form)
 
 @app.route("/accept_token", methods=["POST"])
 def accept_token():
