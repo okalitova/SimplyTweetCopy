@@ -80,11 +80,12 @@
     color: red;
 }
 .search_button {
+    display: block;
     box-sizing: content-box;
     width: 100px;
 }
 .search_bar {
-    margin: 0px;
+    margin: 0px 0px 10px 0px;
     padding: 5px;
     width: 500px;
     min-height: 23px;
