@@ -22,6 +22,12 @@
 .post_container {
     display: block;
 }
+.post_author {
+    float:right;
+    border: double grey;
+    margin: 0px;
+    padding: 5px;
+}
 .post_time {
     float: right;
     border: double grey;

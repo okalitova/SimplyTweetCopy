@@ -3,7 +3,8 @@
 <div>
     {% for post in followings_posts %}
         <div class="post_container">
-            <p class="post_time">{{post.time}}</>
+            <p class="post_author">{{post.email}}</p>
+            <p class="post_time">{{post.time}}</p>
             <p class="post_text">
                 {{post.text}}
                 <img class="post_image" src={{post.image_link}}></img>
