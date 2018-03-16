@@ -17,9 +17,6 @@ class UserInfo():
         if UserInfo.is_logged_in():
             return session["email"]
 
-    def check_user_exists(username):
-        return redis_store.get(username) is not None
-
     def add_current_user(userid, email, username):
         if redis_store.get(username) is None:
             redis_store.set(username,
@@ -30,6 +27,9 @@ class UserInfo():
 
     def remove_current_user():
         session.clear()
+
+    def check_user_exists(username):
+        return redis_store.get(username) is not None
 
     def get_user_info(username):
         user_info_str = redis_store.get(username).decode("utf-8")
