@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for, abort, session
+from flask import request, redirect, url_for, abort
 
 from app import app
 from app.base_template_render import render_over_base_template
@@ -98,6 +98,7 @@ def new_post():
                      new_post_form.text.data, image)
     return redirect(url_for("profile"))
 
+
 @app.route("/search", methods=["GET", "POST"])
 def search():
     search_form = SearchForm()
@@ -108,6 +109,7 @@ def search():
             return redirect(url_for("user_page", userid=userid))
     return render_over_base_template("search_page.html",
                                      search_form=search_form)
+
 
 @app.route("/accept_token", methods=["POST"])
 def accept_token():

@@ -17,14 +17,15 @@ class NewPostForm(FlaskForm):
 class FollowForm(FlaskForm):
     follow = SubmitField("follow")
 
+
 class SearchForm(FlaskForm):
     text = TextField("text", validators=[required(), length(max=500)])
     search = SubmitField("search")
-    
+
     def is_email(self, email):
         regex = r"[^@]+@[^@]+\.[^@]+"
         return re.match(regex, email)
-    
+
     def validate_on_submit(self):
         rv = FlaskForm.validate_on_submit(self)
         if not rv:
