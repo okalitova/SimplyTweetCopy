@@ -79,3 +79,15 @@
 .error {
     color: red;
 }
+.search_button {
+    box-sizing: content-box;
+    width: 100px;
+}
+.search_bar {
+    margin: 0px;
+    padding: 5px;
+    width: 500px;
+    min-height: 23px;
+    font-size: 24px;
+    border-color: grey;
+}

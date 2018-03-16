@@ -20,6 +20,4 @@ def validate_iss(idinfo):
 
 
 def set_user_info(idinfo):
-    # ID token is valid.
-    # Gets the user's Google Account ID from the decoded token.
     UserInfo.add_current_user(idinfo["email"])
