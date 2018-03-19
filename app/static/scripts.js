@@ -25,7 +25,7 @@ function onSignIn(googleUser) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) { // when completed we can move away
             console.log("Redirected to the main page");
-            window.location = "/";
+            window.location = "/profile";
         }
     }
     xhr.open('POST', '/accept_token');
