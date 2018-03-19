@@ -56,10 +56,10 @@ class UserInfoTest(unittest.TestCase):
     @patch("app.user_info.redis_store", MockRedis)
     def test_check_user_exists_if_yes(self):
         self.assertTrue(UserInfo.
-                        check_user_exists(MockRedis.TEST_USER_1))
+                        check_user_exists(MockRedis.USERID_1))
 
     @patch("app.user_info.redis_store", MockRedis)
     def test_get_user_info(self):
-        user_info = UserInfo.get_user_info(MockRedis.TEST_USER_1)
+        user_info = UserInfo.get_user_info(MockRedis.USERID_1)
         self.assertEqual(len(user_info["followings"]), 3)
         self.assertEqual(len(user_info["posts"]), 1)

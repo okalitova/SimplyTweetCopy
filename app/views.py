@@ -2,9 +2,9 @@ from flask import request, redirect, url_for, abort
 
 from app import app
 from app.renderers import render_over_base_template,\
-                        render_current_user_page,\
-                        render_following_user_page,\
-                        render_not_following_user_page
+                          render_current_user_page,\
+                          render_following_user_page,\
+                          render_not_following_user_page
 from app.followings import get_followings, add_following, get_followings_ids
 from app.followings import delete_following
 from app.forms import NewPostForm, DeletePostForm, FollowForm, UnfollowForm

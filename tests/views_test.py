@@ -10,25 +10,35 @@ class ViewsTest(unittest.TestCase):
         app.testing = True
         self.test_client = app.test_client()
         # user info mock
-        self.patcher_user_info = patch("app.views.UserInfo")
-        self.mock_user_info = self.patcher_user_info.start()
-        self.mock_user_info.get_current_user_userid.return_value = \
-            MockRedis.TEST_USER_2
-        self.mock_user_info.check_user_exists.return_value = True
+        self.patcher_user_info_1 = patch("app.views.UserInfo")
+        self.mock_user_info_1 = self.patcher_user_info_1.start()
+        self.mock_user_info_1.get_current_user_userid.return_value = \
+            MockRedis.USERID_2
+        self.mock_user_info_1.check_user_exists.return_value = True
+        # second user info mock
+        self.patcher_user_info_2 = patch("app.renderers.UserInfo")
+        self.mock_user_info_2 = self.patcher_user_info_2.start()
+        self.mock_user_info_2.get_current_user_userid.return_value = \
+            MockRedis.USERID_2
+        self.mock_user_info_2.check_user_exists.return_value = True
         # posts mock
-        self.patcher_get_posts_to_show = patch("app.views.get_posts_to_show")
-        self.mock_get_posts_to_show = self.patcher_get_posts_to_show.start()
-        self.mock_get_posts_to_show.return_value = [MockRedis.TEST_POST_1]
-        # followings mock
-        self.patcher_get_followings_ids = patch("app.views.get_followings_ids")
-        self.mock_get_followings_ids = self.patcher_get_followings_ids.start()
-        self.mock_get_followings_ids.return_value = [MockRedis.TEST_USER_4,
-                                                     MockRedis.TEST_USER_1]
+        self.patcher_get_posts_to_show_1 = patch("app.views.get_posts_to_show")
+        self.mock_get_posts_to_show_1 = \
+            self.patcher_get_posts_to_show_1.start()
+        self.mock_get_posts_to_show_1.return_value = [MockRedis.POST_1]
+        # second posts mock
+        self.patcher_get_posts_to_show_2 = \
+            patch("app.renderers.get_posts_to_show")
+        self.mock_get_posts_to_show_2 = \
+            self.patcher_get_posts_to_show_2.start()
+        self.mock_get_posts_to_show_2.return_value = [MockRedis.POST_1]
 
     def tearDown(self):
-        self.patcher_user_info.stop()
-        self.patcher_get_posts_to_show.stop()
-        self.patcher_get_followings_ids.stop()
+        self.patcher_user_info_1.stop()
+        self.patcher_user_info_2.stop()
+        self.patcher_get_posts_to_show_1.stop()
+        self.patcher_get_posts_to_show_2.stop()
+        MockRedis.to_initial_state()
 
     def test_main_page(self):
         rv = self.test_client.get("/")
@@ -51,26 +61,31 @@ class ViewsTest(unittest.TestCase):
         self.assertEqual(rv.status_code, 404)
 
     def test_user_page_if_exists_current_user_page(self):
-        rv = self.test_client.get("/" + MockRedis.TEST_USER_2)
+        rv = self.test_client.get("/" + MockRedis.USERID_2)
 
         self.assertEqual(rv.status_code, 200)
         self.assertTrue(b"tweet_button" in rv.data)
 
     def test_user_page_if_exists_following_page(self):
-        rv = self.test_client.get("/" + MockRedis.TEST_USER_1)
+        rv = self.test_client.get("/" + MockRedis.USERID_1)
 
         self.assertEqual(rv.status_code, 200)
-        self.assertFalse(b"follow" in rv.data)
+        self.assertTrue(b"unfollow" in rv.data)
 
     def test_user_page_if_exists_not_following_page(self):
-        rv = self.test_client.get("/" + MockRedis.TEST_USER_3)
+        rv = self.test_client.get("/" + MockRedis.USERID_3)
 
         self.assertEqual(rv.status_code, 200)
         self.assertTrue(b"follow" in rv.data)
 
     @patch("app.user_info.redis_store", MockRedis)
-    def test_new_following(self):
-        rv = self.test_client.post("/followings/" + MockRedis.TEST_USER_3)
+    @patch("app.followings.redis_store", MockRedis)
+    @patch("app.views.FollowForm")
+    def test_new_following(self, mock_follow_form):
+        mock_follow_form.return_value.validate_on_submit.return_value = True
+
+        rv = self.test_client.post("/followings/new/" + MockRedis.USERID_3,
+                                   follow_redirects=True)
 
         self.assertEqual(rv.status_code, 200)
         self.assertTrue(b"post #1" in rv.data)

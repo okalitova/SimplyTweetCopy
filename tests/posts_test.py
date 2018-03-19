@@ -18,10 +18,10 @@ class PostsTest(unittest.TestCase):
     def test_add_post(self):
         post_text = "post text"
         post_image = None
-        add_post(MockRedis.TEST_USER_1,
+        add_post(MockRedis.USERID_1,
                  post_text,
                  post_image)
-        posts = get_posts(MockRedis.TEST_USER_1)
+        posts = get_posts(MockRedis.USERID_1)
         self.assertEqual(posts[0]["text"], post_text)
 
     @patch("app.user_info.redis_store", MockRedis)
