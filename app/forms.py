@@ -23,6 +23,10 @@ class FollowForm(FlaskForm):
     follow = SubmitField("follow")
 
 
+class UnfollowForm(FlaskForm):
+    unfollow = SubmitField("unfollow")
+
+
 class SearchForm(FlaskForm):
     text = TextField("text", validators=[required(), length(max=500)])
     search = SubmitField("search")
