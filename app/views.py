@@ -4,9 +4,11 @@ from app import app
 from app.base_template_render import render_over_base_template
 from app.followings import get_followings, add_following, get_followings_ids
 from app.followings import delete_following
-from app.forms import NewPostForm, FollowForm, UnfollowForm, SearchForm
+from app.forms import NewPostForm, DeletePostForm, FollowForm, UnfollowForm
+from app.forms import SearchForm
 from app.login import get_token_idinfo, validate_iss, set_user_info
-from app.posts import get_posts_to_show, get_followings_posts, add_post
+from app.posts import get_posts_to_show, get_followings_posts
+from app.posts import add_post, delete_post
 from app.user_info import UserInfo
 
 
@@ -47,6 +49,7 @@ def user_page(userid):
     is_following = userid in get_followings_ids(current_user_userid)
     follow_form = FollowForm()
     unfollow_form = UnfollowForm()
+    delete_post_form = DeletePostForm()
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=current_user_page,
@@ -54,31 +57,63 @@ def user_page(userid):
                                      posts=posts_to_show,
                                      follow_form=follow_form,
                                      unfollow_form=unfollow_form,
-                                     new_post_form=new_post_form)
+                                     new_post_form=new_post_form,
+                                     delete_post_form=delete_post_form)
 
 
 @app.route("/followings/new/<userid>", methods=["POST"])
-def new_following(userid):
-    add_following(UserInfo.get_current_user_userid(), userid)
-    posts_to_show = get_posts_to_show(userid)
-    unfollow_form = UnfollowForm()
-    return render_over_base_template("user_page.html",
-                                     userid=userid,
-                                     current_user_page=False,
-                                     is_following=True,
-                                     posts=posts_to_show,
-                                     unfollow_form=unfollow_form)
+def following_new(userid):
+    follow_form = FollowForm()
+    if follow_form.validate_on_submit():
+        add_following(UserInfo.get_current_user_userid(), userid)
+        posts_to_show = get_posts_to_show(userid)
+        unfollow_form = UnfollowForm()
+        return render_over_base_template("user_page.html",
+                                         userid=userid,
+                                         current_user_page=False,
+                                         is_following=True,
+                                         posts=posts_to_show,
+                                         unfollow_form=unfollow_form)
+    else:
+        follow_form = FollowForm()
+        return render_over_base_template("user_page.html",
+                                         userid=userid,
+                                         current_user_page=False,
+                                         is_following=False,
+                                         follow_form=follow_form)
 
 
 @app.route("/followings/delete/<userid>", methods=["POST"])
-def detele_following(userid):
-    delete_following(UserInfo.get_current_user_userid(), userid)
-    follow_form = FollowForm()
-    return render_over_base_template("user_page.html",
-                                     userid=userid,
-                                     current_user_page=False,
-                                     is_following=False,
-                                     follow_form=follow_form)
+def followings_delete(userid):
+    unfollow_form = UnfollowForm()
+    if unfollow_form.validate_on_submit():
+        delete_following(UserInfo.get_current_user_userid(), userid)
+        follow_form = FollowForm()
+        return render_over_base_template("user_page.html",
+                                         userid=userid,
+                                         current_user_page=False,
+                                         is_following=False,
+                                         follow_form=follow_form)
+    else:
+        posts_to_show = get_posts_to_show(userid)
+        unfollow_form = UnfollowForm()
+        return render_over_base_template("user_page.html",
+                                         userid=userid,
+                                         current_user_page=False,
+                                         is_following=True,
+                                         posts=posts_to_show,
+                                         unfollow_form=unfollow_form)
+
+
+@app.route("/delete_post/<timestamp>", methods=["POST"])
+def post_delete(timestamp):
+    delete_post_form = DeletePostForm()
+    if delete_post_form.validate_on_submit():
+        userid = UserInfo.get_current_user_userid()
+        delete_post(userid, timestamp)
+        return redirect(url_for("profile"))
+    else:
+        return ""
 
 
 @app.route("/followings")
@@ -110,11 +145,13 @@ def new_post():
             return redirect(url_for("user_page",
                                     userid=current_user_userid))
     posts_to_show = get_posts_to_show(current_user_userid)
+    delete_post_form = DeletePostForm()
     return render_over_base_template("user_page.html",
                                      userid=current_user_userid,
                                      current_user_page=True,
                                      posts=posts_to_show,
-                                     new_post_form=new_post_form)
+                                     new_post_form=new_post_form,
+                                     delete_post_form=delete_post_form)
 
 
 @app.route("/search", methods=["GET", "POST"])
