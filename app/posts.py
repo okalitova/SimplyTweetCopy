@@ -20,6 +20,23 @@ def add_post(userid, text, image):
     redis_store.set(userid, user_info_str)
 
 
+def delete_post(userid, timestamp):
+    user_info_json = UserInfo.get_user_info(userid)
+    to_delete_post_index = -1
+    for i, post in enumerate(user_info_json["posts"]):
+        print(post["timestamp"], timestamp)
+        print(type(post["timestamp"]), type(timestamp))
+        if post["timestamp"] == float(timestamp):
+            to_delete_post_index = i
+            break
+    if to_delete_post_index == -1:
+        raise ValueError("Delete post that is not posted.")
+    else:
+        del user_info_json["posts"][to_delete_post_index]
+        user_info_str = json.dumps(user_info_json)
+        redis_store.set(userid, user_info_str)
+
+
 def get_posts(userid):
     user_info_json = UserInfo.get_user_info(userid)
     user_posts = user_info_json["posts"]
