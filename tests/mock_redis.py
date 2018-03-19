@@ -57,7 +57,11 @@ class MockRedis():
             json.dumps({"email": EMAIL_4,
                         "followings": [],
                         "posts": [TEST_POST_4]})
-            .encode("utf-8")}
+            .encode("utf-8"),
+            EMAIL_1: TEST_USER_1.encode("utf-8"),
+            EMAIL_2: TEST_USER_2.encode("utf-8"),
+            EMAIL_3: TEST_USER_3.encode("utf-8"),
+            EMAIL_4: TEST_USER_4.encode("utf-8")}
 
     TEST_USER_1_FOLLOWINGS_POSTS = [TEST_POST_6,
                                     TEST_POST_5,
