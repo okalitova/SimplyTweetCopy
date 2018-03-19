@@ -22,13 +22,21 @@
     </div>
     {% endif  %}
     {% if not is_following and not current_user_page %}
-        <form action="/followings/{{userid}}" name="follow" method="POST" class="form">
+        <form action="/followings/new/{{userid}}" name="follow" method="POST" class="form">
             {{follow_form.hidden_tag()}}
             <div>
                 {{follow_form.follow}}
             </div>
         </form>
     {% else %}
+        {% if not current_user_page %}
+            <form action="/followings/delete/{{userid}}" name="unfollow" method="POST" class="form">
+                {{unfollow_form.hidden_tag()}}
+                <div>
+                    {{unfollow_form.unfollow}}
+                </div>
+            </form>
+        {% endif %}
         <div>
             {% for post in posts %}
                 <div class="post_container">

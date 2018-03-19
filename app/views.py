@@ -3,7 +3,8 @@ from flask import request, redirect, url_for, abort
 from app import app
 from app.base_template_render import render_over_base_template
 from app.followings import get_followings, add_following, get_followings_ids
-from app.forms import NewPostForm, FollowForm, SearchForm
+from app.followings import delete_following
+from app.forms import NewPostForm, FollowForm, UnfollowForm, SearchForm
 from app.login import get_token_idinfo, validate_iss, set_user_info
 from app.posts import get_posts_to_show, get_followings_posts, add_post
 from app.user_info import UserInfo
@@ -44,27 +45,40 @@ def user_page(userid):
         current_user_page = True
     posts_to_show = get_posts_to_show(userid)
     is_following = userid in get_followings_ids(current_user_userid)
-    follow_form = FollowForm(request.form)
+    follow_form = FollowForm()
+    unfollow_form = UnfollowForm()
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=current_user_page,
                                      is_following=is_following,
                                      posts=posts_to_show,
                                      follow_form=follow_form,
+                                     unfollow_form=unfollow_form,
                                      new_post_form=new_post_form)
 
 
-@app.route("/followings/<userid>", methods=["POST"])
+@app.route("/followings/new/<userid>", methods=["POST"])
 def new_following(userid):
     add_following(UserInfo.get_current_user_userid(), userid)
     posts_to_show = get_posts_to_show(userid)
-    email = UserInfo.get_user_email(userid)
+    unfollow_form = UnfollowForm()
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=False,
                                      is_following=True,
                                      posts=posts_to_show,
-                                     email=email)
+                                     unfollow_form=unfollow_form)
+
+
+@app.route("/followings/delete/<userid>", methods=["POST"])
+def detele_following(userid):
+    delete_following(UserInfo.get_current_user_userid(), userid)
+    follow_form = FollowForm()
+    return render_over_base_template("user_page.html",
+                                     userid=userid,
+                                     current_user_page=False,
+                                     is_following=False,
+                                     follow_form=follow_form)
 
 
 @app.route("/followings")
