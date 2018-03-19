@@ -40,18 +40,18 @@
         <div>
             {% for post in posts %}
                 <div class="post_container">
-                    {% if current_user_page %}
-                        <form action="/delete_post/{{post.timestamp}}" name="delete_post" method="POST" class ="form">
-                            {{delete_post_form.hidden_tag()}}
-                            {{delete_post_form.delete_post}}
-                        </form>
-                    {% endif %}
                     <p class="post_author">{{post.email}}'s post</p>
                     <p class="post_time">{{post.time}}</>
                     <p class="post_text">
                         {{post.text}}
                         <img class="post_image" src={{post.image_link}}></img>
                     </p>
+                    {% if current_user_page %}
+                        <form action="/delete_post/{{post.timestamp}}" name="delete_post" method="POST" class ="form">
+                            {{delete_post_form.hidden_tag()}}
+                            {{delete_post_form.delete_post}}
+                        </form>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
