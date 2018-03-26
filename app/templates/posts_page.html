@@ -1,15 +1,19 @@
 {% extends "base_page.html" %}
 {% block content %}
-<div>
-    {% for post in followings_posts %}
-        <div class="post_container">
-            <p class="post_author">{{post.email}}</p>
-            <p class="post_time">{{post.time}}</p>
-            <p class="post_text">
-                {{post.text}}
-                <img class="post_image" src={{post.image_link}}></img>
-            </p>
+{% for post in followings_posts %}
+    <div class="row">
+        <div class="col post">
+            <div class="card">
+                <div class="card-header">
+                    <strong>{{post.email}}</strong>
+                    <span class="text-muted"> posted {{post.time}}</span>
+                </div>
+                <div class="card-body">
+                    {{post.text}}
+                    <img class="post_image rounded float-left" src={{post.image_link}}></img>
+                </div>
+            </div>
         </div>
-    {% endfor %}
-</div>
+    </div>
+{% endfor %}
 {% endblock %} 

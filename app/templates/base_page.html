@@ -1,41 +1,60 @@
-<html>
+<!doctype html>
+<html lang="en">
     <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Google Sign In -->
         <meta name="google-signin-scope" content="profile email">
         <meta name="google-signin-client_id" content="{{GOOGLE_CLIENT_ID}}">
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <script src="{{url_for('static', filename='scripts.js')}}"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- SimplyTweet CSS -->
         <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
     </head>
     <body>
-        <div class="hat">
-            <h1 class="app_name">SimplyTweet</h1>
-            <span class="menu">
+        <div class="container">
+            <div class="row app_name">
+                <div class="col text-center">
+                    <h1>SimplyTweet</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    {% if session.userid %}
+                        <p>You are logged in as {{session.email}}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row menu text-center">
                 {% if session.userid %}
-                    <p>You are logged in as: {{session["email"]}}</p>
-                    <p class="menu_item">
-                        <a href="/logout" onclick="signOut();">Log out</a>
-                    </p>
-                    <p class="menu_item">
+                    <div class="col">
                         <a href="/profile">Profile</a>
-                    </p>
-                    <p class="menu_item">
+                    </div>
+                    <div class="col">
                         <a href="/followings">Followings</a>
-                    </p>
-                    <p class="menu_item">
+                    </div>
+                    <div class="col">
                         <a href="/posts">Followings posts</a>
-                    </p>
-                    <p class="menu_item">
+                    </div>
+                    <div class="col">
                         <a href="/search">Search for users</a>
-                    </p>
+                    </div>
+                    <div class="col">
+                        <a href="/logout" onclick="signOut();">Log out</a>
+                    </div>
                 {% else %}
-                    <p class="menu_item">
+                    <div class="col text-right">
                         <a href="/login">Log in</a>
-                    </p>
+                    </div>
                 {% endif %}
-            </span>
-        </div>
-        <div>
+            </div>
             {% block content %}{% endblock %}
         </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
 </html>

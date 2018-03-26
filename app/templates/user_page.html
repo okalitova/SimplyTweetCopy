@@ -1,60 +1,55 @@
 {% extends "base_page.html" %}
 {% block content %}
-<div>
-    {% if current_user_page %}
-    <div>
-        <form action="/new_post" name="new_post" method="POST" class="form" enctype="multipart/form-data">
+{% if current_user_page %}
+<div class="row">
+    <div class="col new_post">
+        <form action="/new_post" name="new_post" method="POST" class="form-group" enctype="multipart/form-data">
             {{new_post_form.hidden_tag()}}
-            {{new_post_form.text(class_="new_post")}}
+            {{new_post_form.text(class_="form-control")}}
             {% for error in new_post_form.text.errors %}
-                <p class="error">{{error}}</p>
+                <div class="alert alert-info" role="alert">
+                    {{error}}
+                </div>
             {% endfor %}
-            <div class="upload_button_container">
-                {{new_post_form.image(class_="upload_button")}}
-                {% for error in new_post_form.image.errors %}
-                    <p class="error">{{error}}</p>
-                {% endfor %}
-            </div>
-            <div class="tweet_button_container">
-                {{new_post_form.tweet(class_="tweet_button")}}
-            </div>
+            {{new_post_form.image(class_="form-control-file float-right")}}
+            {% for error in new_post_form.image.errors %}
+                <div class="alert alert-info" role="alert">
+                    {{error}}
+                </div>
+            {% endfor %}
+            {{new_post_form.tweet(class_="btn btn-primary float-right button")}}
         </form>
     </div>
-    {% endif  %}
-    {% if not is_following and not current_user_page %}
-        <form action="/followings/new/{{userid}}" name="follow" method="POST" class="form">
-            {{follow_form.hidden_tag()}}
-            <div>
-                {{follow_form.follow}}
-            </div>
-        </form>
-    {% else %}
-        {% if not current_user_page %}
-            <form action="/followings/delete/{{userid}}" name="unfollow" method="POST" class="form">
-                {{unfollow_form.hidden_tag()}}
-                <div>
-                    {{unfollow_form.unfollow}}
-                </div>
-            </form>
-        {% endif %}
-        <div>
-            {% for post in posts %}
-                <div class="post_container">
-                    <p class="post_author">{{post.email}}'s post</p>
-                    <p class="post_time">{{post.time}}</>
-                    <p class="post_text">
-                        {{post.text}}
-                        <img class="post_image" src={{post.image_link}}></img>
-                    </p>
-                    {% if current_user_page %}
-                        <form action="/delete_post/{{post.timestamp}}" name="delete_post" method="POST" class ="form">
-                            {{delete_post_form.hidden_tag()}}
-                            {{delete_post_form.delete_post}}
-                        </form>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
 </div>
+{% endif  %}
+
+{% if not is_following and not current_user_page %}
+    <form action="/followings/new/{{userid}}" name="follow" method="POST" class="form-group">
+        {{follow_form.hidden_tag()}}
+        {{follow_form.follow(class_="btn btn-secondary float-center button")}}
+    </form>
+{% else %}
+    {% for post in posts %}
+        <div class="row">
+            <div class="col post">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>{{post.email}}</strong>
+                        <span class="text-muted"> posted {{post.time}}</span>
+                    </div>
+                    <div class="card-body">
+                        {{post.text}}
+                        <img class="post_image rounded float-left" src={{post.image_link}}></img>
+                    </div>
+                </div>
+                {% if current_user_page %}
+                    <form action="/delete_post/{{post.timestamp}}" name="delete_post" method="POST" class ="form-group float-right">
+                        {{delete_post_form.hidden_tag()}}
+                        {{delete_post_form.delete_post(class_="btn btn-secondary button")}}
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}
