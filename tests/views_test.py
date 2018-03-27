@@ -22,22 +22,16 @@ class ViewsTest(unittest.TestCase):
             MockRedis.USERID_2
         self.mock_user_info_2.check_user_exists.return_value = True
         # posts mock
-        self.patcher_get_posts_to_show_1 = patch("app.views.get_posts_to_show")
-        self.mock_get_posts_to_show_1 = \
-            self.patcher_get_posts_to_show_1.start()
-        self.mock_get_posts_to_show_1.return_value = [MockRedis.POST_1]
-        # second posts mock
-        self.patcher_get_posts_to_show_2 = \
+        self.patcher_get_posts_to_show = \
             patch("app.renderers.get_posts_to_show")
-        self.mock_get_posts_to_show_2 = \
-            self.patcher_get_posts_to_show_2.start()
-        self.mock_get_posts_to_show_2.return_value = [MockRedis.POST_1]
+        self.mock_get_posts_to_show = \
+            self.patcher_get_posts_to_show.start()
+        self.mock_get_posts_to_show.return_value = [MockRedis.POST_1]
 
     def tearDown(self):
         self.patcher_user_info_1.stop()
         self.patcher_user_info_2.stop()
-        self.patcher_get_posts_to_show_1.stop()
-        self.patcher_get_posts_to_show_2.stop()
+        self.patcher_get_posts_to_show.stop()
         MockRedis.to_initial_state()
 
     def test_main_page(self):
@@ -64,14 +58,15 @@ class ViewsTest(unittest.TestCase):
         rv = self.test_client.get("/" + MockRedis.USERID_2)
 
         self.assertEqual(rv.status_code, 200)
-        self.assertTrue(b"tweet_button" in rv.data)
+        self.assertTrue(b"tweet" in rv.data)
 
     def test_user_page_if_exists_following_page(self):
         rv = self.test_client.get("/" + MockRedis.USERID_1)
 
         self.assertEqual(rv.status_code, 200)
-        self.assertTrue(b"unfollow" in rv.data)
+        self.assertFalse(b"follow" in rv.data)
 
+    @patch("app.user_info.redis_store", MockRedis)
     def test_user_page_if_exists_not_following_page(self):
         rv = self.test_client.get("/" + MockRedis.USERID_3)
 
