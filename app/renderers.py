@@ -1,6 +1,6 @@
 from flask import render_template
 
-from app.forms import DeletePostForm, NewPostForm, FollowForm, UnfollowForm
+from app.forms import DeletePostForm, NewPostForm, FollowForm
 from app.posts import get_posts_to_show
 from app.user_info import UserInfo
 from secret_keys import KeysAccessor
@@ -31,13 +31,11 @@ def render_current_user_page(new_post_form=None):
 
 def render_following_user_page(userid):
     posts_to_show = get_posts_to_show(userid)
-    unfollow_form = UnfollowForm()
     return render_over_base_template("user_page.html",
                                      userid=userid,
                                      current_user_page=False,
                                      is_following=True,
-                                     posts=posts_to_show,
-                                     unfollow_form=unfollow_form)
+                                     posts=posts_to_show)
 
 
 def render_not_following_user_page(userid):

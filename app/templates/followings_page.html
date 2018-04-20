@@ -1,11 +1,20 @@
 {% extends "base_page.html" %}
 {% block content %}
-<header>
-    <h2> Followings </h2>
+<div class="row">
     {% for following in followings %}
-    <div>
-        <a href="/{{following.userid}}">{{following.email}}</p>
-    </div>
+        <div class="col-4">
+            <div class="card following">
+                <div class="card-header">
+                    <a href="/{{following.userid}}">{{following.email}}</a>
+                </div>
+                <div class="card-body">
+                    <form action="/followings/delete/{{following.userid}}" name="unfollow" method="POST" class="form-group">
+                        {{unfollow_form.hidden_tag()}}
+                        {{unfollow_form.unfollow(class_="btn btn-secondary float-right button")}}
+                    </form>
+                </div>
+            </div>
+        </div>
     {% endfor %}
-</header>
+</div>
 {% endblock %}

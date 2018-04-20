@@ -1,83 +1,28 @@
-.hat {
-    margin: -10px -10px 0px -10px;
-    padding: 15px;
-    background-color: #C2DFFF;
-    margin-bottom: 20px;
-    height: 160px;
-}
 .app_name {
     font-size: 56px;
-    display: inline-block;
 }
 .menu {
-    display: inline-block;
-    position: absolute;
-    right: 0px;
-    padding: 10px;
+    margin-bottom: 40px;
+    background-color: #C2DFFF;
 } 
 .menu_item {
     margin: 0px;
     padding: 2px;
 }
-.post_container {
-    display: block;
-}
-.post_author {
-    float:right;
-    border: double grey;
-    margin: 0px;
-    padding: 5px;
-}
-.post_time {
-    float: right;
-    border: double grey;
-    margin: 0px;
-    padding: 5px;
-}
-.post_text {
-    border: double grey;
-    margin: 0px;
-    padding: 5px;
-    font-size: 24px;
-    display: block;
-}
 .post_image {
-    display: block;
+    margin-right: 15px;
     max-height: 300px;
     max-width: 300px;
 }
 .new_post {
-    margin: 0px;
-    padding: 5px;
-    min-height: 100px;
-    font-size: 24px;
-    width: 100%;
-    border-color: grey;
-    display: block;
+    margin-bottom: 40px;
 }
-.upload_button_container {
-    display: block;
-    padding: 10px;
-    text-align: right;
+.post {
+    margin-bottom: 20px;
 }
-.upload_button {
-    width: 160px;
-}
-.tweet_button_container {
-    display: block;
-    text-align: right;
-    padding: 10px;
-}
-.tweet_button {
-    box-sizing: content-box;
+.button {
+    margin: 5px;
     width: 100px;
-}
-.form {
-    padding: 0px;
-    margin: 0px 0px 40px 0px;
-}
-.error {
-    color: red;
 }
 .search_button {
     display: block;
@@ -85,10 +30,9 @@
     width: 100px;
 }
 .search_bar {
-    margin: 0px 0px 10px 0px;
-    padding: 5px;
-    width: 500px;
-    min-height: 23px;
-    font-size: 24px;
-    border-color: grey;
+    margin: 5px;
+    vertical-align: middle;
+}
+.following {
+    margin: 5px 0px;
 }
